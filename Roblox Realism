@@ -1,0 +1,150 @@
+--//Realistic Camera Movements//--
+local Workspace = game:GetService('Workspace')
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+
+local Camera = Workspace.CurrentCamera
+local Mouse = Player:GetMouse()
+
+local RunService = game:GetService("RunService")
+
+local Heartbeat = RunService.Heartbeat
+local RenderStepped = RunService.RenderStepped
+
+repeat wait() until Player.Character
+
+local CoordinateFrame  = CFrame.new
+local CAngle = CFrame.Angles
+local VectorXYZ = Vector3.new
+local pi = math.pi
+local sin = math.sin
+local cos = math.cos
+local acos = math.acos
+local rad  = math.rad
+local random = math.random
+
+local Character = Player.Character
+
+local CharacterComponents = {
+	Humanoid = Character:WaitForChild('Humanoid'),
+	
+	HumanoidRootPart = Character:WaitForChild('HumanoidRootPart'),
+	
+	Head = Character:WaitForChild('Head'),
+	
+	Torso = Character:WaitForChild('Torso'),
+	
+	RightArm = Character:WaitForChild('Right Arm'),
+	
+	LeftArm = Character:WaitForChild('Left Arm'),
+	
+	RightLeg = Character:WaitForChild('Right Leg'),
+	
+	LeftLeg = Character:WaitForChild('Left Leg')
+	
+}
+
+local Locals = {
+	
+    Pose = "Idle",
+
+    Position = 0,
+
+    Jumping = false,
+
+    Idle = true,
+
+    Moving = false,
+
+    KeyDowns = {}
+}
+
+local Debugs = {}
+
+if Character:FindFirstChild("Animate") then
+    Character.Animate.Disabled = true
+    Character.Animate:Destroy()
+    CharacterComponents.Humanoid:ClearAllChildren()
+end
+
+local function Interpolate(Start, End, Alpha)
+	--print(Start, End, Alpha)--Debug
+    return Start:lerp(End, Alpha)
+end
+
+local function Make(Class, Properties)
+	--Pretty Cool way to Instance Items :)
+    local Object = Instance.new(Class)
+    for Index, Value in pairs(Properties or {}) do
+        if pcall(function() return Object[Index] end) then
+            Object[Index] = Value
+        end
+    end
+    return Object--Give it a Value
+end
+
+local NormalCFrames = {
+    Torso = {C0 = CoordinateFrame(0, -1, 0), C1 = CoordinateFrame(0, -1, 0)},
+    Head = {C0 = CoordinateFrame(0, 1.5, 0), C1 = CoordinateFrame(0,0,0)},
+    Right_Arm = {C0 = CoordinateFrame(1.5, .5, 0), C1 = CoordinateFrame(0, .5, 0)},
+    Right_Leg = {C0 = CoordinateFrame(.5, -1, 0), C1 = CoordinateFrame(0, 1, 0)},
+    Left_Arm = {C0 = CoordinateFrame(-1.5, .5, 0), C1 = CoordinateFrame(0, .5, 0)},
+    Left_Leg = {C0 = CoordinateFrame(-.5, -1, 0), C1 = CoordinateFrame(0, 1, 0)},
+}
+
+local Torso     = Make("Motor6D", {Parent = CharacterComponents.Torso,     Part0 = CharacterComponents.HumanoidRootPart, Part1 = CharacterComponents.Torso, C0 = NormalCFrames.Torso.C0,        C1 = NormalCFrames.Torso.C1})
+local Head      = Make("Motor6D", {Parent = CharacterComponents.Head,      Part0 = CharacterComponents.Torso, Part1 = CharacterComponents.Head,             C0 = NormalCFrames.Head.C0,         C1 = NormalCFrames.Head.C1})
+local Right_Arm = Make("Motor6D", {Parent = CharacterComponents.RightArm, Part0 = CharacterComponents.Torso, Part1 = CharacterComponents.RightArm,       	C0 = NormalCFrames.Right_Arm.C0,    C1 = NormalCFrames.Left_Arm.C1})
+local Right_Leg = Make("Motor6D", {Parent = CharacterComponents.RightLeg, Part0 = CharacterComponents.Torso, Part1 = CharacterComponents.RightLeg,       	C0 = NormalCFrames.Right_Leg.C0,    C1 = NormalCFrames.Right_Leg.C1})
+local Left_Arm  = Make("Motor6D", {Parent = CharacterComponents.LeftArm,  Part0 = CharacterComponents.Torso, Part1 = CharacterComponents.LeftArm,       	C0 = NormalCFrames.Left_Arm.C0,     C1 = NormalCFrames.Left_Arm.C1})
+local Left_Leg  = Make("Motor6D", {Parent = CharacterComponents.LeftLeg,  Part0 = CharacterComponents.Torso, Part1 = CharacterComponents.LeftLeg,       	C0 = NormalCFrames.Left_Leg.C0,     C1 = NormalCFrames.Left_Leg.C1})
+
+local function CheckJump(Value)
+    Locals.Jumping = Value
+end
+
+local function Realism_Camera()
+	if Locals.Idle then
+		if Locals.Jumping then
+			CharacterComponents.Humanoid.CameraOffset = Interpolate(CharacterComponents.Humanoid.CameraOffset, VectorXYZ(0, sin(-Locals.Position/50)/10, 0), .05)		
+		elseif (CharacterComponents.Torso.Velocity * VectorXYZ(1, 0, 1)).magnitude < 2 then
+    		CharacterComponents.Humanoid.CameraOffset = Interpolate(CharacterComponents.Humanoid.CameraOffset, VectorXYZ(0, sin(-Locals.Position/20)/10, 0), .05)
+		end
+	end
+end
+
+local function Locals_RenderStepped()
+	local Movement = 1
+    if Locals.Idle then
+        if Locals.Jumping then
+            Locals.Pose = "Jumping"
+        elseif (CharacterComponents.Torso.Velocity * VectorXYZ(1, 0, 1)).magnitude < 2 then
+            Locals.Pose = "Idle"
+        elseif (CharacterComponents.Torso.Velocity * VectorXYZ(1, 0, 1)).magnitude < 24 then
+            Locals.Pose = "Walking"
+        end
+		 if Locals.Pose == "Idle" then
+            Head.C0 = Interpolate(Head.C0, NormalCFrames.Head.C0 * CAngle(rad(-5 + sin(Locals.Position/24)), sin(-Locals.Position/60)/50, 0), .2)
+			Torso.C1 = Interpolate(Torso.C1, NormalCFrames.Torso.C1 * CAngle(0, sin(-Locals.Position/40)/30, 0), .2)
+            Right_Arm.C0 = Interpolate(Right_Arm.C0, NormalCFrames.Right_Arm.C0 * CAngle(rad(0), sin(-Locals.Position/60)/50, rad(-5 + sin(Locals.Position/24))), .2)
+            Left_Arm.C0 = Interpolate(Left_Arm.C0, NormalCFrames.Left_Arm.C0 * CAngle(rad(0), sin(-Locals.Position/60)/50, rad(5 - sin(Locals.Position/24))), .2)
+            Right_Leg.C0 = Interpolate(Right_Leg.C0, NormalCFrames.Right_Leg.C0 * CAngle(rad(0), sin(-Locals.Position/60)/50, rad(0 + sin(Locals.Position/24))), .2)
+            Left_Leg.C0 = Interpolate(Left_Leg.C0, NormalCFrames.Left_Leg.C0 * CAngle(rad(0), sin(-Locals.Position/60)/50, rad(0 - sin(Locals.Position/24))), .2)
+			RenderStepped:connect(Realism_Camera)		
+		elseif Locals.Pose == "Walking" then
+            Head.C0 = Interpolate(Head.C0, NormalCFrames.Head.C0 * CAngle(rad(-5 + sin(Locals.Position/8)), 0, 0), .2)
+            Torso.C0 = Interpolate(Torso.C0, NormalCFrames.Torso.C0, .2)
+            Right_Arm.C0 = Interpolate(Right_Arm.C0, NormalCFrames.Right_Arm.C0 * CAngle(sin(-Locals.Position/8)/2, 0, rad(1 + sin(Locals.Position/24))), .2)
+            Left_Arm.C0 = Interpolate(Left_Arm.C0, NormalCFrames.Left_Arm.C0 * CAngle(sin(Locals.Position/8)/2, 0, rad(-1 - sin(Locals.Position/24))), .2)
+            Right_Leg.C0 = Interpolate(Right_Leg.C0, NormalCFrames.Right_Leg.C0 * CAngle(sin(Locals.Position/8)/1.5, 0, 0), .2)
+            Left_Leg.C0 = Interpolate(Left_Leg.C0, NormalCFrames.Left_Leg.C0 * CAngle(sin(-Locals.Position/8)/1.5, 0, 0), .2)
+			RenderStepped:connect(Realism_Camera)
+elseif Locals.Pose == "Jumping" then
+			RenderStepped:connect(Realism_Camera)
+		end
+	end
+	Locals.Position = Locals.Position + Movement
+end
+
+RenderStepped:connect(Locals_RenderStepped)
+CharacterComponents.Humanoid.FreeFalling:connect(CheckJump)
