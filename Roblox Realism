@@ -142,7 +142,8 @@ local function Locals_RenderStepped()
 		end
 	end
 	Locals.Position = Locals.Position + Movement
+	RenderStepped:connect(Realism_Camera)
 end
 
-RenderStepped:connect(Locals_RenderStepped,Realism_Camera)
+RenderStepped:connect(Locals_RenderStepped)
 CharacterComponents.Humanoid.FreeFalling:connect(CheckJump)
