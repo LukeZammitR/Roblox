@@ -123,26 +123,26 @@ local function Locals_RenderStepped()
         elseif (CharacterComponents.Torso.Velocity * VectorXYZ(1, 0, 1)).magnitude < 24 then
             Locals.Pose = "Walking"
         end
+	RenderStepped:connect(Realism_Camera)
 		 if Locals.Pose == "Idle" then
             Head.C0 = Interpolate(Head.C0, NormalCFrames.Head.C0 * CAngle(rad(-5 + sin(Locals.Position/24)), sin(-Locals.Position/60)/50, 0), .2)
 			Torso.C1 = Interpolate(Torso.C1, NormalCFrames.Torso.C1 * CAngle(0, sin(-Locals.Position/40)/30, 0), .2)
             Right_Arm.C0 = Interpolate(Right_Arm.C0, NormalCFrames.Right_Arm.C0 * CAngle(rad(0), sin(-Locals.Position/60)/50, rad(-5 + sin(Locals.Position/24))), .2)
             Left_Arm.C0 = Interpolate(Left_Arm.C0, NormalCFrames.Left_Arm.C0 * CAngle(rad(0), sin(-Locals.Position/60)/50, rad(5 - sin(Locals.Position/24))), .2)
-            Right_Leg.C0 = Interpolate(Right_Leg.C0, NormalCFrames.Right_Leg.C0 * CAngle(rad(0), sin(-Locals.Position/60)/50, rad(-5 + sin(Locals.Position/24))), .2)
-            Left_Leg.C0 = Interpolate(Left_Leg.C0, NormalCFrames.Left_Leg.C0 * CAngle(rad(0), sin(-Locals.Position/60)/50, rad(5 - sin(Locals.Position/24))), .2)
+            Right_Leg.C0 = Interpolate(Right_Leg.C0, NormalCFrames.Right_Leg.C0 * CAngle(rad(0), sin(-Locals.Position/60)/50, rad(0 + sin(Locals.Position/24))), .2)
+            Left_Leg.C0 = Interpolate(Left_Leg.C0, NormalCFrames.Left_Leg.C0 * CAngle(rad(0), sin(-Locals.Position/60)/50, rad(0 - sin(Locals.Position/24))), .2)
 		elseif Locals.Pose == "Walking" then
             Head.C0 = Interpolate(Head.C0, NormalCFrames.Head.C0 * CAngle(rad(-5 + sin(Locals.Position/8)), 0, 0), .2)
             Torso.C0 = Interpolate(Torso.C0, NormalCFrames.Torso.C0, .2)
-            Right_Arm.C0 = Interpolate(Right_Arm.C0, NormalCFrames.Right_Arm.C0 * CAngle(sin(-Locals.Position/8)/2, 0, rad(5 + sin(Locals.Position/24))), .2)
-            Left_Arm.C0 = Interpolate(Left_Arm.C0, NormalCFrames.Left_Arm.C0 * CAngle(sin(Locals.Position/8)/2, 0, rad(-5 - sin(Locals.Position/24))), .2)
+            Right_Arm.C0 = Interpolate(Right_Arm.C0, NormalCFrames.Right_Arm.C0 * CAngle(sin(-Locals.Position/8)/2, 0, rad(1 + sin(Locals.Position/24))), .2)
+            Left_Arm.C0 = Interpolate(Left_Arm.C0, NormalCFrames.Left_Arm.C0 * CAngle(sin(Locals.Position/8)/2, 0, rad(-1 - sin(Locals.Position/24))), .2)
             Right_Leg.C0 = Interpolate(Right_Leg.C0, NormalCFrames.Right_Leg.C0 * CAngle(sin(Locals.Position/8)/1.5, 0, 0), .2)
             Left_Leg.C0 = Interpolate(Left_Leg.C0, NormalCFrames.Left_Leg.C0 * CAngle(sin(-Locals.Position/8)/1.5, 0, 0), .2)
 elseif Locals.Pose == "Jumping" then
-			print('Jump')
+
 		end
 	end
 	Locals.Position = Locals.Position + Movement
-	RenderStepped:connect(Realism_Camera)
 end
 
 RenderStepped:connect(Locals_RenderStepped)
