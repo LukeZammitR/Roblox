@@ -94,10 +94,10 @@ local NormalCFrames = {
 
 local Torso     = Make("Motor6D", {Parent = CharacterComponents.Torso,     Part0 = CharacterComponents.HumanoidRootPart, Part1 = CharacterComponents.Torso, C0 = NormalCFrames.Torso.C0,        C1 = NormalCFrames.Torso.C1})
 local Head      = Make("Motor6D", {Parent = CharacterComponents.Head,      Part0 = CharacterComponents.Torso, Part1 = CharacterComponents.Head,             C0 = NormalCFrames.Head.C0,         C1 = NormalCFrames.Head.C1})
-local Right_Arm = Make("Motor6D", {Parent = CharacterComponents.Right_Arm, Part0 = CharacterComponents.Torso, Part1 = CharacterComponents.Right_Arm,        C0 = NormalCFrames.Right_Arm.C0,    C1 = NormalCFrames.Left_Arm.C1})
-local Right_Leg = Make("Motor6D", {Parent = CharacterComponents.Right_Leg, Part0 = CharacterComponents.Torso, Part1 = CharacterComponents.Right_Leg,        C0 = NormalCFrames.Right_Leg.C0,    C1 = NormalCFrames.Right_Leg.C1})
-local Left_Arm  = Make("Motor6D", {Parent = CharacterComponents.Left_Arm,  Part0 = CharacterComponents.Torso, Part1 = CharacterComponents.Left_Arm,         C0 = NormalCFrames.Left_Arm.C0,     C1 = NormalCFrames.Left_Arm.C1})
-local Left_Leg  = Make("Motor6D", {Parent = CharacterComponents.Left_Leg,  Part0 = CharacterComponents.Torso, Part1 = CharacterComponents.Left_Leg,         C0 = NormalCFrames.Left_Leg.C0,     C1 = NormalCFrames.Left_Leg.C1})
+local Right_Arm = Make("Motor6D", {Parent = CharacterComponents.RightArm, Part0 = CharacterComponents.Torso, Part1 = CharacterComponents.RightArm,       	C0 = NormalCFrames.Right_Arm.C0,    C1 = NormalCFrames.Left_Arm.C1})
+local Right_Leg = Make("Motor6D", {Parent = CharacterComponents.RightLeg, Part0 = CharacterComponents.Torso, Part1 = CharacterComponents.RightLeg,       	C0 = NormalCFrames.Right_Leg.C0,    C1 = NormalCFrames.Right_Leg.C1})
+local Left_Arm  = Make("Motor6D", {Parent = CharacterComponents.LeftArm,  Part0 = CharacterComponents.Torso, Part1 = CharacterComponents.LeftArm,       	C0 = NormalCFrames.Left_Arm.C0,     C1 = NormalCFrames.Left_Arm.C1})
+local Left_Leg  = Make("Motor6D", {Parent = CharacterComponents.LeftLeg,  Part0 = CharacterComponents.Torso, Part1 = CharacterComponents.LeftLeg,       	C0 = NormalCFrames.Left_Leg.C0,     C1 = NormalCFrames.Left_Leg.C1})
 
 local function CheckJump(Value)
     Locals.Jumping = Value
