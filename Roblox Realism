@@ -126,17 +126,17 @@ local function Locals_RenderStepped()
 		 if Locals.Pose == "Idle" then
             Head.C0 = Interpolate(Head.C0, NormalCFrames.Head.C0 * CAngle(rad(-5 + sin(Locals.Position/24)), sin(-Locals.Position/60)/50, 0), .2)
 			Torso.C1 = Interpolate(Torso.C1, NormalCFrames.Torso.C1 * CAngle(0, sin(-Locals.Position/40)/30, 0), .2)
-            Right_Arm.C0 = Interpolate(Right_Arm.C0, NormalCFrames.Right_Arm.C0 * CAngle(rad(0), sin(-Locals.Position/60)/50, rad(-5 + sin(Locals.Position/24))), .2)
-            Left_Arm.C0 = Interpolate(Left_Arm.C0, NormalCFrames.Left_Arm.C0 * CAngle(rad(0), sin(-Locals.Position/60)/50, rad(5 - sin(Locals.Position/24))), .2)
-            Right_Leg.C0 = Interpolate(Right_Leg.C0, NormalCFrames.Right_Leg.C0 * CAngle(rad(0), sin(-Locals.Position/60)/50, rad(-5 + sin(Locals.Position/24))), .2)
-            Left_Leg.C0 = Interpolate(Left_Leg.C0, NormalCFrames.Left_Leg.C0 * CAngle(rad(0), sin(-Locals.Position/60)/50, rad(5 - sin(Locals.Position/24))), .2)
+            Right_Arm.C0 = Interpolate(Right_Arm.C0, NormalCFrames.RightArm.C0 * CAngle(rad(0), sin(-Locals.Position/60)/50, rad(-5 + sin(Locals.Position/24))), .2)
+            Left_Arm.C0 = Interpolate(Left_Arm.C0, NormalCFrames.LeftArm.C0 * CAngle(rad(0), sin(-Locals.Position/60)/50, rad(5 - sin(Locals.Position/24))), .2)
+            Right_Leg.C0 = Interpolate(Right_Leg.C0, NormalCFrames.RightLeg.C0 * CAngle(rad(0), sin(-Locals.Position/60)/50, rad(-5 + sin(Locals.Position/24))), .2)
+            Left_Leg.C0 = Interpolate(Left_Leg.C0, NormalCFrames.LeftLeg.C0 * CAngle(rad(0), sin(-Locals.Position/60)/50, rad(5 - sin(Locals.Position/24))), .2)
 		elseif Locals.Pose == "Walking" then
             Head.C0 = Interpolate(Head.C0, NormalCFrames.Head.C0 * CAngle(rad(-5 + sin(Locals.Position/24)), sin(-Locals.Position/60)/50, 0), .2)
 			Torso.C1 = Interpolate(Torso.C1, NormalCFrames.Torso.C1 * CAngle(0, sin(-Locals.Position/40)/30, 0), .2)
-            Right_Arm.C0 = Interpolate(Right_Arm.C0, NormalCFrames.Right_Arm.C0 * CAngle(sin(Locals.Position/7)/1.25, sin(-Locals.Position/60)/50, rad(-5 + sin(Locals.Position/24))), .2)
-            Left_Arm.C0 = Interpolate(Left_Arm.C0, NormalCFrames.Left_Arm.C0 * CAngle(sin(Locals.Position/7)/1.25, sin(-Locals.Position/60)/50, rad(5 - sin(Locals.Position/24))), .2)
-            Right_Leg.C0 = Interpolate(Right_Leg.C0, NormalCFrames.Right_Leg.C0 * CAngle(sin(Locals.Position/7)/1.25, sin(-Locals.Position/60)/50, rad(-5 + sin(Locals.Position/24))), .2)
-            Left_Leg.C0 = Interpolate(Left_Leg.C0, NormalCFrames.Left_Leg.C0 * CAngle(sin(Locals.Position/7)/1.25, sin(-Locals.Position/60)/50, rad(5 - sin(Locals.Position/24))), .2)			
+            Right_Arm.C0 = Interpolate(Right_Arm.C0, NormalCFrames.RightArm.C0 * CAngle(sin(Locals.Position/7)/1.25, sin(-Locals.Position/60)/50, rad(-5 + sin(Locals.Position/24))), .2)
+            Left_Arm.C0 = Interpolate(Left_Arm.C0, NormalCFrames.LeftArm.C0 * CAngle(sin(Locals.Position/7)/1.25, sin(-Locals.Position/60)/50, rad(5 - sin(Locals.Position/24))), .2)
+            Right_Leg.C0 = Interpolate(Right_Leg.C0, NormalCFrames.RightLeg.C0 * CAngle(sin(Locals.Position/7)/1.25, sin(-Locals.Position/60)/50, rad(-5 + sin(Locals.Position/24))), .2)
+            Left_Leg.C0 = Interpolate(Left_Leg.C0, NormalCFrames.LeftLeg.C0 * CAngle(sin(Locals.Position/7)/1.25, sin(-Locals.Position/60)/50, rad(5 - sin(Locals.Position/24))), .2)			
 		elseif Locals.Pose == "Jumping" then
 			
 		end
